@@ -7,7 +7,7 @@ How to use.
 1. git clone this repository.
 2. Open with VSCode.
 3. Change WIFI_NAME, WIFI_PASSWORD in the main.c
-4. Run `pio run -t menuconfig` -> Component Config -> ESP PSRAM, Enable Support for external SPI. then select `SPI RAM config` and select the correct mode for your board. (Octal Mode for Freenove Camera ESP32-S3)
+4. Run `pio run -t menuconfig` -> `Component Config` -> `ESP PSRAM, Enable Support for external SPI` then select `SPI RAM config` and select the correct mode for your board. (Octal Mode for Freenove Camera ESP32-S3)
 
 ![image](https://github.com/kakopappa/esp32-rtsp-camera/assets/7474406/1b28e9ff-e88a-43b4-9204-fd9983802869)
    
