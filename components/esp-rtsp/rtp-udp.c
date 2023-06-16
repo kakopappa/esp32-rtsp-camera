@@ -177,7 +177,7 @@ esp_err_t esp_rtp_teardown(esp_rtp_session_handle_t rtp_session) {
     return ESP_OK;
 }
 
-esp_err_t esp_rtp_send_jpeg(esp_rtp_session_handle_t rtp_session, uint8_t *frame, size_t frame_length) {
+esp_err_t esp_rtp_send_jpeg(esp_rtp_session_handle_t rtp_session, uint8_t *frame, size_t frame_length, uint8_t q, uint16_t width, uint16_t height) {
     if (!rtp_session) {
         return ESP_ERR_INVALID_ARG;
     }
@@ -195,9 +195,9 @@ esp_err_t esp_rtp_send_jpeg(esp_rtp_session_handle_t rtp_session, uint8_t *frame
     }
 
     esp_rtp_jpeg_header_t rtp_jpeg_header = {
-            .height = 480,             // TODO get this from camera or image
-            .width = 640,              // TODO get this from camera or image
-            .q = 10,                   // TODO get this from camera or image
+            .height = height,
+            .width = width,
+            .q = q,
             .type = TYPE_BASELINE_DCT_SEQUENTIAL,
             .type_specific = TYPE_0_SPECIFIC_PROGRESSIVE,
             .fragment_offset = 0,

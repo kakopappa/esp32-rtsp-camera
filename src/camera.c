@@ -59,8 +59,8 @@ esp_err_t esp32cam_camera_init() {
     config.pin_sccb_scl = SIOC_GPIO_NUM;
     config.pin_pwdn = PWDN_GPIO_NUM;
     config.pin_reset = RESET_GPIO_NUM;
-    config.xclk_freq_hz = 16500000; // 20000000
-    config.frame_size =  FRAMESIZE_VGA; // update components\esp-rtsp\rtp-udp.c LINE 176
+    config.xclk_freq_hz = 10000000; // 20000000 // 16500000
+    config.frame_size =  FRAMESIZE_XGA;
     config.pixel_format = PIXFORMAT_JPEG; // for streaming
     config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
     config.fb_location = CAMERA_FB_IN_PSRAM;
@@ -77,10 +77,12 @@ esp_err_t esp32cam_camera_init() {
 
     sensor_t * s = esp_camera_sensor_get();
     // initial sensors are flipped vertically and colors are a bit saturated
-    s->set_vflip(s, 1); // flip it back
+    s->set_vflip(s, 0); // flip it back disabled
     s->set_brightness(s, 1); // up the brightness just a bit
     s->set_saturation(s, 0); // lower the saturation
- 
+    s->set_whitebal(s, 1);  // 0 = disable , 1 = enable
+    s->set_exposure_ctrl(s, 1); 
+
     return ESP_OK;
 }
  

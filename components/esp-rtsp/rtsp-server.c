@@ -157,7 +157,7 @@ void temporary_player_task(void *pvParameters) {
             goto done;
         }
 
-        esp_rtp_send_jpeg(session, fb->buf, fb->len);
+        esp_rtp_send_jpeg(session, fb->buf, fb->len, 10, fb->width, fb->height);
 
         //return the frame buffer back to the driver for reuse
         esp_camera_fb_return(fb);
