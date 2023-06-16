@@ -6,8 +6,9 @@
 #define ESPCAM_ESP_RTSP_COMMON_H
 
 #include <esp_err.h>
+#include <esp_timer.h> 
+#include <esp_netif.h>
 
- 
 
 #define URL_MAX_LENGTH 1024
 

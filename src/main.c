@@ -18,14 +18,13 @@
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "sdkconfig.h"
-
 #include "esp-rtsp.h"
 #include "common.h" 
 
 #define TAG "main"
 
-#define WIFI_NAME "June-2G"
-#define WIFI_PASSWORD "wifipassword"
+#define WIFI_NAME ""
+#define WIFI_PASSWORD ""
 
 static app_config_t app_config;
 

@@ -3,6 +3,6 @@ set(COMPONENT_ADD_INCLUDEDIRS "include")
 set(COMPONENT_PRIV_INCLUDEDIRS "priv")
 
 set(COMPONENT_REQUIRES lwip esp32-camera esp_h264)
-set(COMPONENT_PRIV_REQUIRES freertos nvs_flash)
+set(COMPONENT_PRIV_REQUIRES freertos nvs_flash esp_timer esp_netif)
 
 register_component()

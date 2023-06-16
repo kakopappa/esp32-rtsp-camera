@@ -6,12 +6,10 @@
 
 #include "lwip/err.h"
 #include "lwip/sockets.h"
-
 #include "esp-rtsp-common.h"
 #include "rtp-udp.h"
 
 #include "esp_camera.h"
-// #include "esp_timer.h"
 // #include "esp_h264_enc.h"
 // #include "esp_h264_types.h"
 // #include "esp_h264_version.h"
@@ -92,6 +90,18 @@ static void handle_setup(esp_rtsp_server_connection_t *connection, rtsp_req_t *r
 
 static void handle_describe(esp_rtsp_server_connection_t *connection, rtsp_req_t *request) {
     static char sdp[2048];
+    //tcpip_adapter_ip_info_t ipInfo; 
+    
+    esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+    if (netif == NULL) {
+        ESP_LOGW(TAG, "Could not get netif handle\n");
+    }
+
+    esp_netif_ip_info_t ip_info;
+    esp_netif_get_ip_info(netif, &ip_info);
+    char my_ip[64];
+	sprintf(my_ip, IPSTR, IP2STR(&ip_info.ip));
+
     size_t sdp_size = snprintf(sdp, 2048,
                                "v=0\r\n"
                                "o=- %d 1 IN IP4 %s\r\n"
@@ -100,7 +110,7 @@ static void handle_describe(esp_rtsp_server_connection_t *connection, rtsp_req_t
                                "m=video 0 RTP/AVP 26\r\n"
                                "c=IN IP4 0.0.0.0\r\n",
                                12348765,
-                               "192.168.10.234"); // ESP IP?
+                               my_ip);
 
     static char buffer[2048];
     size_t msgsize = snprintf(buffer, 2048,
@@ -142,7 +152,7 @@ void temporary_player_task(void *pvParameters) {
     int rate = 200; // delta ms between frames
 
     for (;;) {
-        //long timestamp_start = esp_timer_get_time();
+        long timestamp_start = esp_timer_get_time();
         camera_fb_t *fb = esp_camera_fb_get();
         if (!fb) {
             ESP_LOGE(TAG, "Camera Capture Failed");
@@ -156,15 +166,15 @@ void temporary_player_task(void *pvParameters) {
 
         done:
         {
-            //long timestamp_end = esp_timer_get_time();
+            long timestamp_end = esp_timer_get_time();
 
-            // long delta_ms = (timestamp_end - timestamp_start) / 1000;
-            // if (delta_ms >= rate) {
-            //     rate += 50;
-            // } else {
-                 // vTaskDelay(pdMS_TO_TICKS(rate - delta_ms));
-                 vTaskDelay(pdMS_TO_TICKS(50));
-            // }
+            long delta_ms = (timestamp_end - timestamp_start) / 1000;
+            if (delta_ms >= rate) {
+                rate += 50;
+            } else {
+                 vTaskDelay(pdMS_TO_TICKS(rate - delta_ms));
+                 //vTaskDelay(pdMS_TO_TICKS(50));
+            }
         }
     }
 }
