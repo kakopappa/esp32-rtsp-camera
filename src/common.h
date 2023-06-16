@@ -24,5 +24,5 @@ typedef struct {
 esp_err_t esp32cam_camera_init();
 esp_err_t esp32cam_camera_capture(esp_err_t(*handler)(uint8_t *fb, size_t fb_len));
 esp_err_t esp32cam_wifi_init(espcam_wifi_config_t *wifi_config); 
-
+esp_err_t esp32cam_sntp_init();
 #endif //ESPCAM_ESP_RTSP_COMMON_H

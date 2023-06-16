@@ -47,7 +47,7 @@ static void handle_options(esp_rtsp_server_connection_t *connection, rtsp_req_t 
                               "\r\n",
                               request->cseq);
     size_t sent = send(connection->socket, buffer, msgsize, 0);
-    ESP_LOGI(TAG, "RTSP >: %s", buffer);
+    ESP_LOGI(TAG, "RTSP (options) >: %s", buffer);
     if (sent != msgsize) {
         ESP_LOGW(TAG, "Mismatch between msgsize and sent bytes: %d vs %d", msgsize, sent);
     }
@@ -90,8 +90,6 @@ static void handle_setup(esp_rtsp_server_connection_t *connection, rtsp_req_t *r
 
 static void handle_describe(esp_rtsp_server_connection_t *connection, rtsp_req_t *request) {
     static char sdp[2048];
-    //tcpip_adapter_ip_info_t ipInfo; 
-    
     esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
     if (netif == NULL) {
         ESP_LOGW(TAG, "Could not get netif handle\n");
@@ -127,14 +125,14 @@ static void handle_describe(esp_rtsp_server_connection_t *connection, rtsp_req_t
 
     // Send header
     size_t sent = send(connection->socket, buffer, msgsize, 0);
-    ESP_LOGI(TAG, "RTSP (describe) >: %s", buffer);
+    ESP_LOGI(TAG, "RTSP (describe header) >: %s", buffer);
     if (sent != msgsize) {
         ESP_LOGW(TAG, "Mismatch between msgsize and sent bytes: %d vs %d", msgsize, sent);
     }
 
     // Send body
     sent = send(connection->socket, sdp, sdp_size, 0);
-    ESP_LOGI(TAG, "RTSP (describe) >: %s", sdp);
+    ESP_LOGI(TAG, "RTSP (describe body) >: %s", sdp);
     if (sent != sdp_size) {
         ESP_LOGW(TAG, "Mismatch between sdp_size and sent bytes: %d vs %d", sdp_size, sent);
     }
@@ -173,7 +171,6 @@ void temporary_player_task(void *pvParameters) {
                 rate += 50;
             } else {
                  vTaskDelay(pdMS_TO_TICKS(rate - delta_ms));
-                 //vTaskDelay(pdMS_TO_TICKS(50));
             }
         }
     }
@@ -199,7 +196,7 @@ static void handle_play(esp_rtsp_server_connection_t *connection, rtsp_req_t *re
                               12348765);
 
     size_t sent = send(connection->socket, buffer, msgsize, 0);
-    ESP_LOGI(TAG, "RTSP >: %s", buffer);
+    ESP_LOGI(TAG, "RTSP (play) >: %s", buffer);
     if (sent != msgsize) {
         ESP_LOGW(TAG, "Mismatch between msgsize and sent bytes: %d vs %d", msgsize, sent);
     }
@@ -230,7 +227,7 @@ static void handle_teardown(esp_rtsp_server_connection_t *connection, rtsp_req_t
                               request->cseq);
 
     size_t sent = send(connection->socket, buffer, msgsize, 0);
-    ESP_LOGI(TAG, "RTSP >: %s", buffer);
+    ESP_LOGI(TAG, "RTSP (teardown) >: %s", buffer);
     if (sent != msgsize) {
         ESP_LOGW(TAG, "Mismatch between msgsize and sent bytes: %d vs %d", msgsize, sent);
     }

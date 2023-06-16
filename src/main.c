@@ -27,7 +27,7 @@
 #define WIFI_PASSWORD ""
 
 static app_config_t app_config;
-
+ 
 void app_main() {
     ESP_LOGI(TAG, "[APP] Startup..");
     ESP_LOGI(TAG, "[APP] Free heap memory: %d bytes (%d internal)", esp_get_free_heap_size(), esp_get_free_internal_heap_size());
@@ -53,6 +53,9 @@ void app_main() {
 
     ESP_ERROR_CHECK(esp32cam_wifi_init(&app_config.wifi_config));
     ESP_LOGD(TAG, "[POST esp32cam_wifi_init] Free internal heap  %d bytes", esp_get_free_internal_heap_size());
+
+    ESP_ERROR_CHECK(esp32cam_sntp_init());
+    ESP_LOGD(TAG, "[POST esp32cam_sntp_init] Free internal heap  %d bytes", esp_get_free_internal_heap_size());
 
     ESP_LOGD(TAG, "[PRE esp32cam_camera_init] Free internal heap  %d bytes", esp_get_free_internal_heap_size());
     ESP_ERROR_CHECK(esp32cam_camera_init());
