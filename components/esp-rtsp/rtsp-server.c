@@ -170,7 +170,7 @@ void temporary_player_task(void *pvParameters) {
     int frame_count = 0;
     //int ret_w = 0;
 
-    cfg.fps = 30;
+    cfg.fps = 10;
     cfg.height = 240;
     cfg.width = 320;
     cfg.pic_type = ESP_H264_RAW_FMT_YUV422;
@@ -228,6 +228,7 @@ void temporary_player_task(void *pvParameters) {
                     }
                     else if((h264_nal->type  == H264_NAL_SPS || h264_nal->type == H264_NAL_PPS) && !idr){
                         rtp_packet_t* cur = rtp_packet_malloc(&header, h264_nal->data, h264_nal->len);
+
                         esp_rtp_send_h264(session, (unsigned char*)cur->data, cur->len);
                         rtp_packet_free(cur);
                     }
