@@ -177,6 +177,37 @@ esp_err_t esp_rtp_teardown(esp_rtp_session_handle_t rtp_session) {
     return ESP_OK;
 }
 
+esp_err_t esp_rtp_send_h264(esp_rtp_session_handle_t rtp_session, unsigned char *data, int len) {
+    if (!rtp_session) {
+        return ESP_ERR_INVALID_ARG;
+    }
+    esp_rtp_session_t *session = rtp_session;
+
+    const struct sockaddr_in client = {
+            .sin_family = AF_INET,
+            .sin_addr.s_addr = inet_addr(session->dst_addr),
+            .sin_port = htons(session->dst_rtp_port)
+    };
+
+ 
+    int ret;
+    int try = 3;
+
+    do {
+        ret = sendto(session->rtp_socket, (const unsigned char*)data, len, 0, (const struct sockaddr *) &client, sizeof(client));
+        if (ret != len) {
+            ESP_LOGE(TAG, "client %d\n",ret);
+            //return ret;
+        }
+        else {
+            return 0;
+        }
+        try--;
+    } while(ret != len && try > 0);
+
+    return ESP_OK;
+}
+
 esp_err_t esp_rtp_send_jpeg(esp_rtp_session_handle_t rtp_session, uint8_t *frame, size_t frame_length, uint8_t q, uint16_t width, uint16_t height) {
     if (!rtp_session) {
         return ESP_ERR_INVALID_ARG;

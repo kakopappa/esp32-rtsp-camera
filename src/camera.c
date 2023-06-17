@@ -60,8 +60,9 @@ esp_err_t esp32cam_camera_init() {
     config.pin_pwdn = PWDN_GPIO_NUM;
     config.pin_reset = RESET_GPIO_NUM;
     config.xclk_freq_hz = 10000000; // 20000000 // 16500000
-    config.frame_size =  FRAMESIZE_XGA;
-    config.pixel_format = PIXFORMAT_JPEG; // for streaming
+    config.frame_size =  FRAMESIZE_QVGA;
+    //config.pixel_format = PIXFORMAT_JPEG; // for streaming
+    config.pixel_format = PIXFORMAT_YUV422;
     config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
     config.fb_location = CAMERA_FB_IN_PSRAM;
     config.jpeg_quality = 10;

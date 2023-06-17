@@ -23,8 +23,8 @@
 
 #define TAG "main"
 
-#define WIFI_NAME ""
-#define WIFI_PASSWORD ""
+#define WIFI_NAME "June-2G"
+#define WIFI_PASSWORD "wifipassword"
 
 static app_config_t app_config;
  
