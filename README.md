@@ -19,3 +19,5 @@ Limitations:
 Credit:
 1. Hugo Trippaers - for initial version. https://github.com/spark404/esp32-cam/
 2. Boris - for Freenove ESP32 S3 board definition for PIO. https://github.com/sivar2311/freenove-esp32-s3-platformio
+
+esp32 camera with h264 support is in the h264 branch
